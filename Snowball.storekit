@@ -1,0 +1,40 @@
+{
+  "appPolicies" : {
+    "eula" : "",
+    "policies" : [
+      {
+        "locale" : "en_US",
+        "policyText" : "",
+        "policyURL" : ""
+      }
+    ]
+  },
+  "identifier" : "SNOWBALL_STOREKIT_CONFIG",
+  "nonRenewingSubscriptions" : [],
+  "products" : [
+    {
+      "displayPrice" : "0.99",
+      "familyShareable" : true,
+      "internalID" : "snowball_pro_unlock_id",
+      "localizations" : [
+        {
+          "description" : "Unlock unlimited debts, the avalanche vs snowball comparison, your payoff-date projection and one-tap sharing. One-time purchase.",
+          "displayName" : "Snowball Pro",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "snowball_pro_unlock",
+      "referenceName" : "Snowball Pro Unlock",
+      "type" : "NonConsumable"
+    }
+  ],
+  "settings" : {
+    "_failTransactionsEnabled" : false,
+    "_storeKitErrors" : []
+  },
+  "subscriptionGroups" : [],
+  "version" : {
+    "major" : 3,
+    "minor" : 0
+  }
+}

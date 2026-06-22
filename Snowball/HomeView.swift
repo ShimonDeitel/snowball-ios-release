@@ -77,14 +77,32 @@ struct HomeView: View {
                     .lineLimit(1)
             }
             Divider()
-            HStack {
-                Label {
-                    Text(debtFreeText).font(.subheadline.weight(.semibold))
-                } icon: {
-                    Image(systemName: "flag.checkered")
-                        .foregroundStyle(Color.snowAccent)
+            if store.isPro {
+                HStack {
+                    Label {
+                        Text(debtFreeText).font(.subheadline.weight(.semibold))
+                    } icon: {
+                        Image(systemName: "flag.checkered")
+                            .foregroundStyle(Color.snowAccent)
+                    }
+                    Spacer()
                 }
-                Spacer()
+            } else {
+                Button { Haptics.tap(); showPaywall = true } label: {
+                    HStack {
+                        Label {
+                            Text("See your debt-free date").font(.subheadline.weight(.semibold))
+                        } icon: {
+                            Image(systemName: "lock.fill")
+                                .foregroundStyle(Color.snowAccent)
+                        }
+                        Spacer()
+                        Image(systemName: "chevron.right")
+                            .font(.footnote).foregroundStyle(.secondary)
+                    }
+                }
+                .buttonStyle(.plain)
+                .accessibilityIdentifier("home-projection-locked")
             }
         }
         .frame(maxWidth: .infinity)

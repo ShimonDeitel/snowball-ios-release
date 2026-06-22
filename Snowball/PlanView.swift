@@ -22,7 +22,7 @@ struct PlanView: View {
                         summaryTiles
                         if store.isPro { compareCard } else { compareLocked }
                         milestonesCard
-                        scheduleCard
+                        if store.isPro { scheduleCard } else { scheduleLocked }
                     }
                     .padding(.horizontal, 20)
                     .padding(.bottom, 28)
@@ -103,10 +103,31 @@ struct PlanView: View {
 
     private var summaryTiles: some View {
         HStack(spacing: 12) {
-            MetricTile(value: debtFree, label: "Debt-free")
-            MetricTile(value: monthsText, label: "Months")
+            if store.isPro {
+                MetricTile(value: debtFree, label: "Debt-free")
+                MetricTile(value: monthsText, label: "Months")
+            } else {
+                projectionLocked
+            }
             MetricTile(value: Money.whole(plan.totalInterest), label: "Interest")
         }
+    }
+
+    /// Locked payoff-date projection (Pro). Mirrors `compareLocked`: tapping opens the paywall.
+    private var projectionLocked: some View {
+        Button { Haptics.tap(); showPaywall = true } label: {
+            VStack(spacing: 6) {
+                Image(systemName: "lock.fill")
+                    .font(.system(size: 22, weight: .semibold))
+                    .foregroundStyle(Color.snowAccent)
+                Text("Payoff date").font(.caption).foregroundStyle(.secondary)
+            }
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, 18)
+            .background(Color.snowCard, in: RoundedRectangle(cornerRadius: 18, style: .continuous))
+        }
+        .buttonStyle(.plain)
+        .accessibilityIdentifier("projection-locked")
     }
 
     private var debtFree: String {
@@ -232,6 +253,25 @@ struct PlanView: View {
             }
         }
         .snowCard()
+    }
+
+    /// Locked month-by-month schedule (Pro). Mirrors `compareLocked`: tapping opens the paywall.
+    private var scheduleLocked: some View {
+        Button { Haptics.tap(); showPaywall = true } label: {
+            HStack(spacing: 12) {
+                Image(systemName: "lock.fill").foregroundStyle(Color.snowAccent)
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("Month-by-month schedule").font(.subheadline.weight(.semibold))
+                    Text("See the exact month you'll be debt-free.").font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+                Spacer()
+                Image(systemName: "chevron.right").font(.footnote).foregroundStyle(.secondary)
+            }
+            .snowCard()
+        }
+        .buttonStyle(.plain)
+        .accessibilityIdentifier("schedule-locked")
     }
 
     private var shareText: String {
